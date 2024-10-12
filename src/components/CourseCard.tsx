@@ -349,7 +349,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
         setInputValue(event.target.value);
     };
 
-    // Handling button click
+    // Handling button click event
     const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         console.log('Button clicked:', event);
     };
