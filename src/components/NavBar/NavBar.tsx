@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 
 interface NavBarProps {
   isAuthenticated: boolean;
+  toggleAuth: () => void;
 }
 
-const NavBar = ({ isAuthenticated }: NavBarProps) => (
+const NavBar = ({ isAuthenticated, toggleAuth }: NavBarProps) => (
   <nav className='navbar'>
     <ul>
       <li><Link to="/">Home</Link></li>
@@ -15,6 +16,11 @@ const NavBar = ({ isAuthenticated }: NavBarProps) => (
       ) : (
         <li><Link to="/login">Login</Link></li>
       )}
+      <li>
+        <button onClick={toggleAuth}>
+          {isAuthenticated ? "Logout" : "Login"}
+        </button>
+      </li>
     </ul>
   </nav>
 );
