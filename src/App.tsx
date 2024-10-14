@@ -5,7 +5,9 @@ import HomePage from './pages/HomePage'
 import CourseListPage from './pages/CourseListPage'
 import CourseDetailPage from './pages/CourseDetailsPage'
 import ContactPage from './pages/ContactPage'
-
+import UserProfilePage from './pages/UserProfilePage'
+import Settings from './components/Settings/Settings'
+import Orders from './components/Orders/Orders'
 
 
 const App = () => {
@@ -19,6 +21,10 @@ const App = () => {
           <Route path="/courses" element={<CourseListPage />} />
           <Route path="/courses/:courseId" element={<CourseDetailPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/profile" element={<UserProfilePage />}>
+            <Route path="settings" element={<Settings />} />
+            <Route path="orders" element={<Orders />} />
+          </Route>
         </Routes>
       </div>    
     </div>
