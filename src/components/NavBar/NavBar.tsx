@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 
-interface NavBarProps {
-  isAuthenticated: boolean;
-  toggleAuth: () => void;
-}
+const NavBar = () => {
+  const { isAuthenticated, toggleAuth } = useUser();
 
-const NavBar = ({ isAuthenticated, toggleAuth }: NavBarProps) => (
-  <nav className='navbar'>
+  return (
+    <nav className='navbar'>
     <ul>
       <li><Link to="/">Home</Link></li>
       <li><Link to="/courses">Courses</Link></li>
@@ -23,6 +22,9 @@ const NavBar = ({ isAuthenticated, toggleAuth }: NavBarProps) => (
       </li>
     </ul>
   </nav>
-);
+  )
+}
+
+
 
 export default NavBar;

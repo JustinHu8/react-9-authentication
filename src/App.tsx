@@ -14,18 +14,13 @@ import './App.css'
 
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const toggleAuth = () => {
-    setIsAuthenticated(!isAuthenticated);
-  };
 
   return (
     <div>
-      <NavBar isAuthenticated={isAuthenticated} toggleAuth={toggleAuth} />
+      <NavBar />
       <div className="main-content">
         <Routes>
-          <Route path="/" element={<HomePage isAuthenticated={isAuthenticated} />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/courses" element={<CourseListPage />} />
           <Route path="/courses/:courseId" element={<CourseDetailPage />} />
           <Route path="/contact" element={<ContactPage />} />
@@ -33,7 +28,7 @@ const App = () => {
           <Route
             path="/profile/*"
             element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <ProtectedRoute>
                 <UserProfilePage />
               </ProtectedRoute>
             }>

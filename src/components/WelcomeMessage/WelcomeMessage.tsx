@@ -1,17 +1,17 @@
-interface WelcomeMessageProps {
-isAuthenticated: boolean;
-}
+import { useUser } from "../../context/UserContext";
 
-const WelcomeMessage: React.FC<WelcomeMessageProps> = ({ isAuthenticated }) => {
-return (
-    <div>
-    {isAuthenticated ? (
-        <p>Welcome back, user! You are logged in.</p>
-    ) : (
-        <p>Please log in to access more features.</p>
-    )}
-    </div>
-);
+const WelcomeMessage = () => {
+    const { isAuthenticated } = useUser();
+
+    return (
+        <div>
+        {isAuthenticated ? (
+            <p>Welcome back, user! You are logged in.</p>
+        ) : (
+            <p>Please log in to access more features.</p>
+        )}
+        </div>
+    );
 };
 
 export default WelcomeMessage;
