@@ -1,28 +1,20 @@
-import React, { useState, useEffect } from 'react'
 import './App.css'
-import CourseCard from './components/CourseCard'
-interface Course {
-  id: number;
-}
+import { useCourses } from './hooks/useCourses'
+import CourseCard from './components/CourseCard/CourseCard'
 
-function App() {
-  const [courses, setCourses] = useState<Course[]>([]);
+const App = () => {
+  const { courses, loading, error } = useCourses();
 
-  useEffect(() => {
-    fetch("https://my-json-server.typicode.com/JustinHu8/courseCardMock/courseCards")
-      .then(response => response.json())
-      .then(data => setCourses(data));
-  }, []);
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
-    <>
-      <div className="course-list">
-        {courses.map(course => (
-          <CourseCard title={''} description={''} lessons={0} key={course.id} {...course} />
-        ))}
-      </div>
-    </>
-  )
+    <div className="course-list">
+      {courses.map(course => (
+        <CourseCard key={course.id} {...course} />
+      ))}
+    </div>
+  );
 }
 
 export default App

@@ -1,13 +1,7 @@
 import React from "react";
+import { Course } from "../../types/course";
 
-interface CourseCardProps {
-  id: number;
-  title: string;
-  description: string;
-  lessons: number;
-}
-
-const CourseCard: React.FC<CourseCardProps> = ({ title, description, lessons }) => {
+const CourseCard: React.FC<Course> = ({ title, description, lessons }) => {
   return (
     <div className="course-card">
       <h3>{title}</h3>
