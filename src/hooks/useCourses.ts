@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Course } from "../types/course";
+import { Course } from '../types/course'
 
 export const useCourses = () => {
   const [courses, setCourses] = useState<Course[]>([]);
