@@ -1,11 +1,10 @@
-import { useCourses } from '../hooks/useCourses'
 import CourseCard from '../components/CourseCard/CourseCard'
+import { Course } from '../types/course'
+interface HomePageProps {
+    courses: Course[];
+}
 
-const CourseListPage = () => {
-    const { courses, loading, error } = useCourses();
-
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+const CourseListPage = ({ courses } : HomePageProps) => {
 
     return (
         <div className="course-list">

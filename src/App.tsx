@@ -10,18 +10,23 @@ import Settings from './components/Settings/Settings'
 import Orders from './components/Orders/Orders'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import LoginPage from './pages/LoginPage'
+import { useCourses } from './hooks/useCourses';
 import './App.css'
 
 
 const App = () => {
+  const { courses, loading, error } = useCourses();
+
+  if (loading) return <p>Loading courses...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div>
       <NavBar />
       <div className="main-content">
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/courses" element={<CourseListPage />} />
+          <Route path="/" element={<HomePage courses={courses} />} />
+          <Route path="/courses" element={<CourseListPage  courses={courses} />} />
           <Route path="/courses/:courseId" element={<CourseDetailPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path='/login' element={<LoginPage />} />
