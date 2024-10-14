@@ -1,19 +1,26 @@
+import React, { useState, useEffect } from 'react'
 import './App.css'
 import CourseCard from './components/CourseCard'
+interface Course {
+  id: number;
+}
 
 function App() {
+  const [courses, setCourses] = useState<Course[]>([]);
 
-  const courseObj = {
-    title: 'React Basics',
-    description: 'This is a Jiangren React Basics Course as part of .NET fullstack semester',
-    duration: 3,
-    isFree: true,
-    teachers: ['Justin A', 'Justin B', 'Justin C']
-  };
+  useEffect(() => {
+    fetch("https://my-json-server.typicode.com/JustinHu8/courseCardMock/courseCards")
+      .then(response => response.json())
+      .then(data => setCourses(data));
+  }, []);
 
   return (
     <>
-      <CourseCard course={courseObj}/>
+      <div className="course-list">
+        {courses.map(course => (
+          <CourseCard title={''} description={''} lessons={0} key={course.id} {...course} />
+        ))}
+      </div>
     </>
   )
 }
