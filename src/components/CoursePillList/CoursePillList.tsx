@@ -1,11 +1,21 @@
+import { useEffect } from 'react';
 import CoursePill from '../CoursePill/CoursePill';
-import { Course } from '../../types/course';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCourses } from '../../actions/courseActions';
+import { RootState } from '../../types/index';
+import { AppDispatch } from '../../store/store';
 
-interface CoursePillListProps {
-  courses: Course[];
-}
+const CoursePillList = () => {
+  const dispatch: AppDispatch = useDispatch();
+  const { courses, loading, error } = useSelector((state: RootState) => state.coursesState);
 
-const CoursePillList = ({ courses }: CoursePillListProps) => {
+  useEffect(() => {
+    dispatch(fetchCourses());
+  }, [dispatch]);
+
+  if (loading) return <p>Loading courses...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <div className="course-pill-list" style={{ display: 'flex', gap: '10px', overflowX: 'scroll' }}>
       {courses.map((course) => (
