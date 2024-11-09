@@ -1,7 +1,7 @@
 export interface Course {
     id: number;
     title: string;
-    description: string;
-    lessons: number;
+    description?: string;
+    lessons?: number;
     isEnrolled: boolean;
 }

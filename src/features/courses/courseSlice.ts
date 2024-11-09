@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Course } from '../../types/course';
 
 // Define the initial state for the course feature
-interface CoursesState {
+export interface CoursesState {
   courses: Course[];
   loading: boolean;
   error: string | null;
