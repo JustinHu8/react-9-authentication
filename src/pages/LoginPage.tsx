@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { useAuth } from '../context/AuthContext';
 import { login, logout } from '../features/auth/authSlice';
 import { RootState } from '../types';
+import { AppDispatch } from '../store/store';
 
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     // const { isAuthenticated, login, logout } = useAuth();
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -19,10 +20,10 @@ const LoginPage: React.FC = () => {
             return;
         }
         try {
-            // Simulate getting token from server
-            const token = 'dummy_token';
-            dispatch(login(token));
-        } catch (error) {
+            // await login(username, password);
+            dispatch(login({ username, password }));
+        } catch (error: any) {
+            error.response ? alert(error.response.data.message) :
             alert('Login failed');
         }
     };
