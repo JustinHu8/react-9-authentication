@@ -6,4 +6,7 @@ export interface RootState {
         loading: boolean;
         error: string | null;
     };
+    auth: {
+        isAuthenticated: boolean;
+    };
 }

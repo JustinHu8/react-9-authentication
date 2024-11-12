@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+// import { useAuth } from '../context/AuthContext';
+import { login, logout } from '../features/auth/authSlice';
+import { RootState } from '../types';
 
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { isAuthenticated, login, logout } = useAuth();
+    // const { isAuthenticated, login, logout } = useAuth();
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const dispatch = useDispatch();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -13,9 +18,13 @@ const LoginPage: React.FC = () => {
             alert('Please enter username and password');
             return;
         }
-        // Simulate an API call
-        const fakeToken = 'fakeTokenAbc123';
-        login(fakeToken);
+        try {
+            // Simulate getting token from server
+            const token = 'dummy_token';
+            dispatch(login(token));
+        } catch (error) {
+            alert('Login failed');
+        }
     };
 
     return (
@@ -23,7 +32,7 @@ const LoginPage: React.FC = () => {
             {isAuthenticated ?
             <>
                 <h2>You are already logged in</h2>
-                <button onClick={() => logout()}>Logout</button>
+                <button onClick={() => dispatch(logout())}>Logout</button>
             </>
             :
             <>
