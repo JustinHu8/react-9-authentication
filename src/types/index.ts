@@ -7,6 +7,8 @@ export interface RootState {
         error: string | null;
     };
     auth: {
+        status: string;
+        error: string;
         isAuthenticated: boolean;
     };
 }

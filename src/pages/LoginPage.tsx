@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { useAuth } from '../context/AuthContext';
 import { login, logout } from '../features/auth/authSlice';
 import { RootState } from '../types';
 import { AppDispatch } from '../store/store';
@@ -8,8 +7,9 @@ import { AppDispatch } from '../store/store';
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    // const { isAuthenticated, login, logout } = useAuth();
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const status = useSelector((state: RootState) => state.auth.status);
+    const error = useSelector((state: RootState) => state.auth.error);
     const dispatch = useDispatch<AppDispatch>();
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -19,12 +19,17 @@ const LoginPage: React.FC = () => {
             alert('Please enter username and password');
             return;
         }
-        try {
-            // await login(username, password);
-            dispatch(login({ username, password }));
-        } catch (error: any) {
-            error.response ? alert(error.response.data.message) :
-            alert('Login failed');
+        dispatch(login({ username, password }));
+    };
+
+    const renderStatusMessage = () => {
+        switch (status) {
+            case 'loading':
+                return <p>Authenticating... Please wait.</p>;
+            case 'failed':
+                return <p style={{ color: 'red' }}>Error: {error}</p>;
+            default:
+                return null;
         }
     };
 
@@ -49,6 +54,7 @@ const LoginPage: React.FC = () => {
                     </label>
                     <button type="submit">Login</button>
                 </form>
+                <div>{renderStatusMessage()}</div>
             </>
             }
         </div>
