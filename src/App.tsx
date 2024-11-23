@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setAuthenticated } from './features/auth/authSlice';
 import { Route, Routes } from 'react-router-dom'
 import NavBar from './components/NavBar/NavBar'
 import HomePage from './pages/HomePage'
@@ -13,6 +16,14 @@ import './App.css'
 
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+      const token = localStorage.getItem('token');
+      if (token) {
+          dispatch(setAuthenticated());
+      }
+  }, [dispatch]);
 
   return (
     <div>

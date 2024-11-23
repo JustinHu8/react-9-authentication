@@ -43,6 +43,9 @@ interface AuthState {
         state.token = null;
         localStorage.removeItem('token');
       },
+      setAuthenticated: (state) => {
+        state.isAuthenticated = true;
+      },
     },
     extraReducers: (builder) => {
       builder
@@ -63,5 +66,5 @@ interface AuthState {
     },
   });
   
-export const { logout } = authSlice.actions;
+export const { logout, setAuthenticated } = authSlice.actions;
 export default authSlice.reducer;
