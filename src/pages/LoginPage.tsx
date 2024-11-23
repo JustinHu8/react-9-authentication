@@ -7,6 +7,7 @@ import { AppDispatch } from '../store/store';
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const status = useSelector((state: RootState) => state.auth.status);
     const error = useSelector((state: RootState) => state.auth.error);
@@ -15,11 +16,9 @@ const LoginPage: React.FC = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Validate input
-        if (!username || !password) {
-            alert('Please enter username and password');
-            return;
+        if (validateInputs()) {
+            dispatch(login({ username, password }));
         }
-        dispatch(login({ username, password }));
     };
 
     const renderStatusMessage = () => {
@@ -33,6 +32,26 @@ const LoginPage: React.FC = () => {
         }
     };
 
+    // Function to validate the input fields
+    const validateInputs = (): boolean => {
+        const newErrors: { username?: string; password?: string } = {};
+
+        if (!username.trim()) {
+            newErrors.username = 'Username is required.';
+        } else if (username.length < 3) {
+            newErrors.username = 'Username must be at least 3 characters long.';
+        }
+
+        if (!password.trim()) {
+            newErrors.password = 'Password is required.';
+        } else if (password.length < 6) {
+            newErrors.password = 'Password must be at least 6 characters long.';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     return (
         <div>
             {isAuthenticated ?
@@ -44,15 +63,31 @@ const LoginPage: React.FC = () => {
             <>
                 <h2>Please log in to continue</h2>
                 <form onSubmit={handleSubmit}>
-                    <label>
-                        Username:
-                        <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-                    </label>
-                    <label>
-                        Password:
-                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-                    </label>
-                    <button type="submit">Login</button>
+                    <div>
+                        <label htmlFor="username">Username:</label>
+                        <input
+                            type="text"
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            disabled={status === 'loading'}
+                        />
+                        {errors.username && <p style={{ color: 'red' }}>{errors.username}</p>}
+                    </div>
+                    <div>
+                        <label htmlFor="password">Password:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            disabled={status === 'loading'}
+                        />
+                        {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
+                    </div>
+                    <button type="submit" disabled={status === 'loading'}>
+                        {status === 'loading' ? 'Logging in...' : 'Login'}
+                    </button>
                 </form>
                 <div>{renderStatusMessage()}</div>
             </>
