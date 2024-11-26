@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { setAuthenticated } from './features/auth/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { setAuthenticated, clearAuthentication } from './features/auth/authSlice';
+import { RootState } from './store/store'
 import { Route, Routes } from 'react-router-dom'
 import NavBar from './components/NavBar/NavBar'
 import HomePage from './pages/HomePage'
@@ -19,10 +21,21 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-      const token = localStorage.getItem('token');
-      if (token) {
+    // Check cookie authentication status
+    const checkAuth = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/protected', {
+          withCredentials: true,
+        });
+        if (response.status === 200) {
           dispatch(setAuthenticated());
+        }
+      } catch {
+        dispatch(clearAuthentication());
       }
+    }
+
+    checkAuth();
   }, [dispatch]);
 
   return (
